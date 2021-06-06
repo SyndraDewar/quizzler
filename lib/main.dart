@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'quiz_brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 void main() => runApp(Quizzler());
 
@@ -28,25 +29,37 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
   QuizBrain quizBrain = QuizBrain();
-  void checkAnswer(userPickedAnswer) {
+  void checkAnswer(bool userPickedAnswer) {
     bool correctAnswer = quizBrain.getQuestionAnswer();
-    if (userPickedAnswer == correctAnswer) {
-      print('The user got it right!');
-      scoreKeeper.add(
-        Icon(
-          Icons.check,
-          color: Colors.green,
-        ),
-      );
-    } else {
-      print('The user got it wrong!');
-      scoreKeeper.add(
-        Icon(
-          Icons.close,
-          color: Colors.red,
-        ),
-      );
-    }
+    setState(() {
+      if (quizBrain.isFinished() == true) {
+        Alert(
+                context: context,
+                title: "CONGRATULATIONS!",
+                desc: "You have completed the quiz")
+            .show();
+        quizBrain.reset();
+        scoreKeeper.clear();
+      } else {
+        if (userPickedAnswer == correctAnswer) {
+          print('The user got it right!');
+          scoreKeeper.add(
+            Icon(
+              Icons.check,
+              color: Colors.green,
+            ),
+          );
+        } else {
+          print('The user got it wrong!');
+          scoreKeeper.add(
+            Icon(
+              Icons.close,
+              color: Colors.red,
+            ),
+          );
+        }
+      }
+    });
   }
 
   @override

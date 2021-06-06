@@ -35,6 +35,20 @@ class QuizBrain {
     }
   }
 
+  bool isFinished() {
+    if (_questionNumber == _questionBank.length - 1) {
+      print('questions are finished');
+      return true;
+    } else {
+      print('there are more questions');
+      return false;
+    }
+  }
+
+  void reset() {
+    _questionNumber = 0;
+  }
+
   String getQuestionText() {
     return _questionBank[_questionNumber].questionText;
   }
